@@ -3,6 +3,28 @@ import Spline from '@splinetool/react-spline';
 import { CheckCircle2, ArrowRight, Shield, Zap } from 'lucide-react';
 
 export default function Hero() {
+  const primaryScene = 'https://prod.spline.design/0n9o6kq0YgUPj3wK/scene.splinecode';
+  const backupScene = 'https://prod.spline.design/6YcpMdMt7fQpS2fy/scene.splinecode';
+
+  const [sceneUrl, setSceneUrl] = React.useState(primaryScene);
+  const [loaded, setLoaded] = React.useState(false);
+  const [fallback, setFallback] = React.useState(false);
+
+  React.useEffect(() => {
+    const toBackup = setTimeout(() => {
+      if (!loaded) setSceneUrl(backupScene);
+    }, 4500);
+
+    const toFallback = setTimeout(() => {
+      if (!loaded) setFallback(true);
+    }, 9000);
+
+    return () => {
+      clearTimeout(toBackup);
+      clearTimeout(toFallback);
+    };
+  }, [loaded]);
+
   return (
     <section className="relative pt-28 pb-20 overflow-hidden">
       <div className="absolute inset-0">
@@ -53,10 +75,22 @@ export default function Hero() {
         </div>
 
         <div className="relative h-[420px] rounded-2xl overflow-hidden border border-white/20 dark:border-white/10 bg-gradient-to-br from-neutral-50 to-white dark:from-neutral-900 dark:to-neutral-950">
-          <Spline
-            scene="https://prod.spline.design/0n9o6kq0YgUPj3wK/scene.splinecode"
-            style={{ width: '100%', height: '100%' }}
-          />
+          {!fallback ? (
+            <Spline
+              scene={sceneUrl}
+              style={{ width: '100%', height: '100%' }}
+              onLoad={() => setLoaded(true)}
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center px-6">
+                <div className="mx-auto h-14 w-14 rounded-2xl bg-gradient-to-tr from-indigo-500 via-violet-500 to-fuchsia-500" />
+                <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-300">
+                  Tampilan 3D sedang tidak tersedia. Menampilkan visual statis sebagai pengganti.
+                </p>
+              </div>
+            </div>
+          )}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent dark:from-neutral-900/40" />
         </div>
       </div>
