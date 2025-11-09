@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Pricing from './components/Pricing';
+import CTA from './components/CTA';
 import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Hero />
           <Features />
           <Pricing />
+          <CTA />
         </main>
         <footer className="border-t border-neutral-200 dark:border-neutral-800 py-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
